@@ -1,3 +1,38 @@
+Go Daemon
+=========
+
+A daemon package for use with Go (golang) services with no dependencies
+
+[![GoDoc](https://godoc.org/github.com/takama/daemon?status.svg)](https://godoc.org/github.com/takama/daemon)
+
+### Examples
+
+Simplest example (just install self as daemon):
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/takama/daemon"
+)
+
+func main() {
+	service, err := daemon.New("name", "description")
+	if err != nil {
+		log.Fatal("Error: ", err)
+	}
+	status, err := service.Install()
+	if err != nil {
+		log.Fatal(status, "\nError: ", err)
+	}
+	fmt.Println(status)
+}
+```
+
+Real example:
+```go
 // Example of a daemon with echo service
 package main
 
@@ -22,7 +57,7 @@ const (
 	port = ":9977"
 )
 
-// dependencies that are NOT required by the service, but might be used
+//	dependencies that are NOT required by the service, but might be used
 var dependencies = []string{"dummy.service"}
 
 var stdlog, errlog *log.Logger
@@ -57,7 +92,7 @@ func (service *Service) Manage() (string, error) {
 	}
 
 	// Do something, call your goroutines, etc
-	go httpserver()
+
 	// Set up channel on which to send signal notifications.
 	// We must use a buffered channel or risk missing the signal
 	// if we're not ready to receive when the signal is sent.
@@ -85,11 +120,14 @@ func (service *Service) Manage() (string, error) {
 			stdlog.Println("Stoping listening on ", listener.Addr())
 			listener.Close()
 			if killSignal == os.Interrupt {
-				return "Daemon was interrupted by system signal", nil
+				return "Daemon was interruped by system signal", nil
 			}
 			return "Daemon was killed", nil
 		}
 	}
+
+	// never happen, but need to complete code
+	return usage, nil
 }
 
 // Accept a client connection and collect it in a channel
@@ -115,8 +153,8 @@ func handleClient(client net.Conn) {
 }
 
 func init() {
-	stdlog = log.New(os.Stdout, "", 0)
-	errlog = log.New(os.Stderr, "", 0)
+	stdlog = log.New(os.Stdout, "", log.Ldate|log.Ltime)
+	errlog = log.New(os.Stderr, "", log.Ldate|log.Ltime)
 }
 
 func main() {
@@ -132,5 +170,34 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Println(status)
-
 }
+```
+
+## Contributors (unsorted)
+
+- [Igor Dolzhikov](https://github.com/takama)
+- [Sheile](https://github.com/Sheile)
+- [Nguyen Trung Loi](https://github.com/loint)
+- [Donny Prasetyobudi](https://github.com/donnpebe)
+- [Mark Berner](https://github.com/mark2b)
+- [Fatih Kaya](https://github.com/fatihky)
+- [Jannick Fahlbusch](https://github.com/jannickfahlbusch)
+- [TobyZXJ](https://github.com/tobyzxj)
+- [Pichu Chen](https://github.com/PichuChen)
+- [Eric Halpern](https://github.com/ehalpern)
+- [Yota](https://github.com/nus)
+- [Erkan Durmus](https://github.com/derkan)
+- [maxxant](https://github.com/maxxant)
+- [1for](https://github.com/1for)
+- [okamura](https://github.com/sidepelican)
+
+All the contributors are welcome. If you would like to be the contributor please accept some rules.
+- The pull requests will be accepted only in "develop" branch
+- All modifications or additions should be tested
+- Sorry, We will not accept code with any dependency, only standard library
+
+Thank you for your understanding!
+
+## License
+
+[MIT Public License](https://github.com/takama/daemon/blob/master/LICENSE)

@@ -57,7 +57,7 @@ func (service *Service) Manage() (string, error) {
 	}
 
 	// Do something, call your goroutines, etc
-	go httpserver()
+
 	// Set up channel on which to send signal notifications.
 	// We must use a buffered channel or risk missing the signal
 	// if we're not ready to receive when the signal is sent.

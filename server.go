@@ -18,7 +18,7 @@ func init() {
 	loadTemplates()
 }
 
-func main() {
+func httpserver() {
 
 	router := mux.NewRouter()
 
