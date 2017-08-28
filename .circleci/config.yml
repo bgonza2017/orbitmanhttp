@@ -17,6 +17,7 @@ jobs:
             GO_BUILD_PATH: ./
             DOCKER_IMAGE_NAME: orbitmanhttp
             PROJECT_ID: servergo
+            DOCKER_REPO: us.gcr.io/servergo/
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
