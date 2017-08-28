@@ -15,15 +15,15 @@ import (
 const (
 
 	// name of the service
-	name        = "myservice"
-	description = "My Echo Service"
+	name        = "phddemo"
+	description = "Demo phd Gorilla Service"
 
 	// port which daemon should be listen
 	port = ":9977"
 )
 
 // dependencies that are NOT required by the service, but might be used
-var dependencies = []string{"dummy.service"}
+var dependencies = []string{"phddemo.service"}
 
 var stdlog, errlog *log.Logger
 
