@@ -6,7 +6,8 @@ jobs:
   build:
     docker:
       # specify the version
-      - image: circleci/golang:1.8
+      - image: chuck7000/go-gcl-build:alpine-1.8
+          #circleci/golang:1.8
         environment:
             GO_EXEC_NAME: orbitmanhttp
             GO_BUILD_PATH: ./main.go
