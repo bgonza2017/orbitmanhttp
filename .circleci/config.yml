@@ -27,8 +27,20 @@ jobs:
     ####   /go/src/bitbucket.org/circleci/go-tool
     working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
+      # auth with gcloud
+      - run:
+          command: |
+            echo $GCLOUD_SERVICE_KEY | base64 -d > ${HOME}/gcloud-service-key.json
+            export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
+            cat ${HOME}/gcloud-service-key.json
+            /go/google-cloud-sdk/bin/gcloud --quiet components update
+            /go/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+            /go/google-cloud-sdk/bin/gcloud config set project $PROJECT_ID
+
+            
       #pull the source code
       - checkout
+
 
       # specify any bash command here prefixed with `run: `
       #- run: go get -v -t -d ./...
