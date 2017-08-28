@@ -33,11 +33,11 @@ jobs:
             echo $GCLOUD_SERVICE_KEY | base64 -d > ${HOME}/gcloud-service-key.json
             export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
             cat ${HOME}/gcloud-service-key.json
-            /go/google-cloud-sdk/bin/gcloud --quiet components update
-            /go/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-            /go/google-cloud-sdk/bin/gcloud config set project $PROJECT_ID
+            sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+            sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+            sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_ID
 
-            
+
       #pull the source code
       - checkout
 
