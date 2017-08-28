@@ -12,8 +12,9 @@ jobs:
             GO_BUILD_PATH: ./main.go
             ORG_NAME: bgonza2017
             REPO_NAME: orbitmanhttp
-            GO_EXEC_NAME: orbitmanhttp-server
+            GO_EXEC_NAME: orbitmanhttp
             GO_BUILD_PATH: ./
+            DOCKER_IMAGE_NAME: orbitmanhttp
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -38,3 +39,12 @@ jobs:
 
       # setup docker
       - setup_remote_docker
+
+      # build a new image with the commit sha1 as the tag
+      - run: |
+          docker build -t $DOCKER_REPO$DOCKER_IMAGE_NAME:${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM} .
+          docker tag $DOCKER_REPO$DOCKER_IMAGE_NAME:${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM} $DOCKER_REPO$DOCKER_IMAGE_NAME:latest
+
+     # push the docker image to the registry
+          /go/google-cloud-sdk/bin/gcloud docker -- push $DOCKER_REPO$DOCKER_IMAGE_NAME:${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
+          /go/google-cloud-sdk/bin/gcloud docker -- push $DOCKER_REPO$DOCKER_IMAGE_NAME:latest
