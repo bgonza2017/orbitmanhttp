@@ -44,7 +44,5 @@ jobs:
       - run: |
           docker build -t $DOCKER_REPO$DOCKER_IMAGE_NAME:${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM} .
           docker tag $DOCKER_REPO$DOCKER_IMAGE_NAME:${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM} $DOCKER_REPO$DOCKER_IMAGE_NAME:latest
-
-     # push the docker image to the registry
           /go/google-cloud-sdk/bin/gcloud docker -- push $DOCKER_REPO$DOCKER_IMAGE_NAME:${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
           /go/google-cloud-sdk/bin/gcloud docker -- push $DOCKER_REPO$DOCKER_IMAGE_NAME:latest
